@@ -12,6 +12,7 @@ public class HammingCode
     
         return (int)(Ceiling((Log(n) / Log(2)))) == (int)(Floor(((Log(n) / Log(2))))); 
     }
+
     static public Dictionary<int, int> DicCreator(int[,] bits , int lengh)
     {
         var dic = new Dictionary<int, int>(lengh);
@@ -24,6 +25,7 @@ public class HammingCode
         }
         return dic;
     }
+
     static public void ShowData(int[,] bits)
     {
         Dictionary<int, int> bitsDic = DicCreator(bits, bits.Length);
@@ -40,6 +42,7 @@ public class HammingCode
             }
         }
     }
+    
     static public void ShowBits(int[,] bits)
     {
         for (int i = 0; i <= bits.GetUpperBound(0); i++)
@@ -51,7 +54,8 @@ public class HammingCode
             WriteLine();
         }
     }
-    static public void CheckData(int[,] bits)
+    
+    static public bool CheckData(int[,] bits)
     {
         Dictionary<int, int> bitsDic = DicCreator(bits, bits.Length);
 
@@ -83,11 +87,11 @@ public class HammingCode
 
         if(countsTrue == bits.GetUpperBound(0) + 1)
         {
-            Write("TRUE");
+            return true;
         }
         else
         {
-            Write("FALSE");
+            return false;
         }
     }
 }
