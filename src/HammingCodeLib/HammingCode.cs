@@ -67,7 +67,7 @@ public class HammingCode
             int value = bit.Value;
             if (IsPowerOfTwo(key))
             {
-                if ((CountsOne(bitsDic, key) - value) % 2 == value)
+                if (CheckTrue(bitsDic, key, value))
                 {
                     countsTrue++;
                 }
@@ -84,13 +84,13 @@ public class HammingCode
         }
     }
 
-    public static int CountsOne(Dictionary<int,int> bitsDic, int POTKey)
+    public static bool CheckTrue(Dictionary<int,int> bitsDic, int potKey, int value)
     {
         int bitsOne = 0;
                 
-        for (int i = POTKey; i < bitsDic.Count; i += POTKey + POTKey)
+        for (int i = potKey; i < bitsDic.Count; i += potKey + potKey)
         {
-            for (int j = i; j <= i + (POTKey - 1); j++)
+            for (int j = i; j <= i + (potKey - 1); j++)
             {
                 if (bitsDic[j] == 1)
                 {
@@ -99,6 +99,13 @@ public class HammingCode
             }
         }
 
-        return bitsOne;
+        if ((bitsOne - value) % 2 == value)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
