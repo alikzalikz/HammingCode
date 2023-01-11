@@ -3,7 +3,7 @@
 namespace HammingCodeLib.Shared;
 public class HammingCode
 {
-    static public bool isPowerOfTwo(int n) 
+    public static bool IsPowerOfTwo(int n) 
     { 
         if(n==0)
         {
@@ -13,7 +13,7 @@ public class HammingCode
         return (int)(Ceiling((Log(n) / Log(2)))) == (int)(Floor(((Log(n) / Log(2))))); 
     }
 
-    static public Dictionary<int, int> DicCreator(int[,] bits , int lengh)
+    public static Dictionary<int, int> DicCreator(int[,] bits , int lengh)
     {
         var dic = new Dictionary<int, int>(lengh);
 
@@ -26,13 +26,13 @@ public class HammingCode
         return dic;
     }
 
-    static public void ShowData(int[,] bits)
+    public static void ShowData(int[,] bits)
     {
         Dictionary<int, int> bitsDic = DicCreator(bits, bits.Length);
 
         foreach (KeyValuePair<int, int> bit in bitsDic)
         {
-            if (bit.Key == 0 || isPowerOfTwo(bit.Key))
+            if (bit.Key == 0 || IsPowerOfTwo(bit.Key))
             {
                 
             }
@@ -43,7 +43,7 @@ public class HammingCode
         }
     }
     
-    static public void ShowBits(int[,] bits)
+    public static void ShowBits(int[,] bits)
     {
         for (int i = 0; i <= bits.GetUpperBound(0); i++)
         {
@@ -54,8 +54,8 @@ public class HammingCode
             WriteLine();
         }
     }
-    
-    static public bool CheckData(int[,] bits)
+
+    public static bool CheckData(int[,] bits)
     {
         Dictionary<int, int> bitsDic = DicCreator(bits, bits.Length);
 
@@ -63,22 +63,11 @@ public class HammingCode
 
         foreach (KeyValuePair<int, int> bit in bitsDic)
         {
-            int countsOne = 0;
             int key = bit.Key;
             int value = bit.Value;
-            if (isPowerOfTwo(key))
+            if (IsPowerOfTwo(key))
             {
-                for (int i = key; i < bitsDic.Count; i += key + key)
-                {
-                    for (int j = i; j <= i + (key - 1); j++)
-                    {
-                        if (bitsDic[j] == 1)
-                        {
-                            countsOne++;
-                        }
-                    }
-                }
-                if ((countsOne - value) % 2 == value)
+                if ((CountsOne(bitsDic, key) - value) % 2 == value)
                 {
                     countsTrue++;
                 }
@@ -93,5 +82,23 @@ public class HammingCode
         {
             return false;
         }
+    }
+
+    public static int CountsOne(Dictionary<int,int> bitsDic, int POTKey)
+    {
+        int bitsOne = 0;
+                
+        for (int i = POTKey; i < bitsDic.Count; i += POTKey + POTKey)
+        {
+            for (int j = i; j <= i + (POTKey - 1); j++)
+            {
+                if (bitsDic[j] == 1)
+                {
+                    bitsOne++;
+                }
+            }
+        }
+
+        return bitsOne;
     }
 }
