@@ -1,4 +1,5 @@
-﻿using static System.Math;
+﻿using System.Reflection.Metadata.Ecma335;
+using static System.Math;
 
 namespace HammingCodeLib.Shared;
 public class HammingCode
@@ -51,7 +52,10 @@ public class HammingCode
             {
                 str += $"{bits[i, j]} ";
             }
-            WriteLine();
+            if (i != bits.GetUpperBound(0))
+            {
+                str += "\n";
+            }
         }
         return str;
     }
@@ -135,9 +139,154 @@ public class HammingCode
             return false;
         }
     }
+    public static List<int> RemovePotkey(Dictionary<int,int> bitsDic, List<int> mistakes, int potKey)
+    {
+        for (int i = potKey; i < bitsDic.Count; i += potKey + potKey)
+        {
+            for (int j = i; j <= i + (potKey - 1); j++)
+            {
+                mistakes.Remove(j);
+            }
+        }
+        return mistakes;
+    }
+
+    public static List<int> RemoveOther(Dictionary<int,int> bitsDic, List<int> mistakes, int potKey)
+    {
+        List<int> mistakesList = new();
+        for (int i = potKey; i < bitsDic.Count; i += potKey + potKey)
+        {
+            for (int j = i; j <= i + (potKey - 1); j++)
+            {
+                if (mistakes.Contains(j))
+                {
+                    mistakesList.Add(j);
+                }
+            }
+        }
+        return mistakesList;
+    }
+
+    public static List<int> FindMistake(int[,] bits)
+    {
+        List<int> mistakes = new();
+        int count = 0;
+        foreach (int i in bits)
+        {
+            mistakes.Add(count);
+            count++;
+        }
+
+        var bitsDic = DicCreator(bits, bits.Length);
+        
+        foreach (KeyValuePair<int, int> bit in bitsDic)
+        {
+            int key = bit.Key;
+            int value = bit.Value;
+
+            if (key == 0)
+            {
+                if (BitZeroCheck(bits))
+                {
+                    mistakes.Remove(key);
+                }
+            }
+            if (IsPowerOfTwo(key))
+            {
+                if (PotKeyCheck(bitsDic, key, value))
+                {
+                    mistakes = RemovePotkey(bitsDic, mistakes, key);
+                }
+                else
+                {
+                    mistakes = RemoveOther(bitsDic, mistakes, key);
+                }
+            }
+        }
+
+        return mistakes;
+    }
 
     public static void DataEdit(int[,] bits)
     {
+        int mistakes = FindMistake(bits).Max();
 
+        int x = mistakes / (bits.GetUpperBound(0) + 1);
+        int y = mistakes % (bits.GetUpperBound(0) + 1);
+
+        switch(bits[x,y])
+        {
+            case 0:
+                bits[x,y] = 1;
+                break;
+            case 1:
+                bits[x,y] = 0;
+                break;
+        }
+
+
+        foreach (int i in bits)
+        {
+            Write($"{i} ");
+        }
+        WriteLine();
+
+        ForegroundColor = ConsoleColor.Red;
+        for (int i = 0; i <= bits.Length; i++)
+        {
+            if (i == mistakes)
+            {
+                Write("^ edited bit :)");
+            }
+            else
+            {
+                Write("  ");
+            }
+        }
+        ResetColor();
+        WriteLine();
+
+        for (int i = 0; i <= bits.GetUpperBound(0); i++)
+        {
+            for (int j = 0; j <= bits.GetUpperBound(1); j++)
+            {
+                if (i == x && j == y)
+                {
+                    ForegroundColor = ConsoleColor.Red;
+                    Write($"{bits[i,j]} ");
+                    ResetColor();
+                }
+                else
+                {
+                    Write($"{bits[i,j]} ");
+                }
+            }
+            if (i != bits.GetUpperBound(0))
+            {
+                WriteLine();
+            }
+        }
+    }
+
+    public static void DisplayHC(int[,] bits)
+    {
+        WriteLine("Your Data:");
+        WriteLine(HammingCode.ShowBits(bits));
+        WriteLine("--------------------");
+
+        if (HammingCode.DataCheck(bits))
+        {
+            ForegroundColor = ConsoleColor.Green;
+            WriteLine("True Data :)");
+            ResetColor();
+        }
+        else
+        {
+            ForegroundColor = ConsoleColor.Red;
+            WriteLine("Data is not Correct!");
+            ResetColor();
+            
+            HammingCode.DataEdit(bits);
+        }
     }
 }

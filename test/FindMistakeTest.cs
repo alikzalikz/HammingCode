@@ -1,7 +1,7 @@
 using HammingCodeLib.Shared;
 
 namespace test;
-public class ShowBitsTest
+public class FindMistakeTest
 {
     [Fact]
     public void Data1()
@@ -9,15 +9,15 @@ public class ShowBitsTest
         // Arrenge
         int[,] bits = new[,]
         {
-            {0 , 1 , 1 , 1}, 
+            {1 , 1 , 0 , 1}, 
             {1 , 1 , 1 , 0},
             {0 , 0 , 1 , 0},
             {0 , 1 , 0 , 0}
         };
-        string expected = "0 1 1 1 \n1 1 1 0 \n0 0 1 0 \n0 1 0 0 ";
+        List<int> expected = new(){2};
 
         // Act
-        string actual = HammingCode.ShowBits(bits);
+        List<int> actual = HammingCode.FindMistake(bits);
         
         // Assert
         Assert.Equal(expected, actual);
@@ -29,15 +29,15 @@ public class ShowBitsTest
         // Arrenge
         int[,] bits = new[,]
         {
-            {0 , 1 , 1 , 1}, 
-            {0 , 0 , 1 , 0},
+            {1 , 0 , 1 , 1}, 
             {1 , 1 , 1 , 0},
+            {0 , 0 , 1 , 0},
             {0 , 1 , 0 , 0}
         };
-        string expected = "0 1 1 1 \n0 0 1 0 \n1 1 1 0 \n0 1 0 0 ";
+        List<int> expected = new(){1};
 
         // Act
-        string actual = HammingCode.ShowBits(bits);
+        List<int> actual = HammingCode.FindMistake(bits);
         
         // Assert
         Assert.Equal(expected, actual);
