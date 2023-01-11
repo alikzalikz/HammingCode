@@ -57,7 +57,7 @@ public class HammingCode
 
     public static bool CheckData(int[,] bits)
     {
-        Dictionary<int, int> bitsDic = DicCreator(bits, bits.Length);
+        var bitsDic = DicCreator(bits, bits.Length);
 
         int countsTrue = 0;
 
@@ -67,7 +67,7 @@ public class HammingCode
             int value = bit.Value;
             if (IsPowerOfTwo(key))
             {
-                if (CheckTrue(bitsDic, key, value))
+                if (CheckTruePotKey(bitsDic, key, value))
                 {
                     countsTrue++;
                 }
@@ -84,7 +84,7 @@ public class HammingCode
         }
     }
 
-    public static bool CheckTrue(Dictionary<int,int> bitsDic, int potKey, int value)
+    public static bool CheckTruePotKey(Dictionary<int,int> bitsDic, int potKey, int value)
     {
         int bitsOne = 0;
                 
