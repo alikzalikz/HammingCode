@@ -1,7 +1,7 @@
 using HammingCodeLib.Shared;
-namespace test;
 
-public class CheckDataTest
+namespace test;
+public class BitZeroCheckTest
 {
     [Fact]
     public void TestCorrectData()
@@ -17,7 +17,7 @@ public class CheckDataTest
         bool expected = true;
 
         // Act
-        bool actual = HammingCode.CheckData(bits);
+        bool actual = HammingCode.BitZeroCheck(bits);
         
         // Assert
         Assert.Equal(expected, actual);
@@ -29,15 +29,15 @@ public class CheckDataTest
         // Arrenge
         int[,] bits = new[,]
         {
-            {0 , 1 , 0 , 1}, 
-            {1 , 1 , 1 , 0},
-            {0 , 0 , 1 , 0},
-            {0 , 1 , 0 , 0}
+            {0 , 0 , 0 , 0}, 
+            {0 , 0 , 0 , 0},
+            {0 , 0 , 0 , 0},
+            {0 , 0 , 0 , 1}
         };
         bool expected = false;
 
         // Act
-        bool actual = HammingCode.CheckData(bits);
+        bool actual = HammingCode.BitZeroCheck(bits);
         
         // Assert
         Assert.Equal(expected, actual);

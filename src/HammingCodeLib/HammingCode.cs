@@ -55,26 +55,32 @@ public class HammingCode
         }
     }
 
-    public static bool CheckData(int[,] bits)
+    public static bool DataCheck(int[,] bits)
     {
         var bitsDic = DicCreator(bits, bits.Length);
 
         int countsTrue = 0;
-
         foreach (KeyValuePair<int, int> bit in bitsDic)
         {
             int key = bit.Key;
             int value = bit.Value;
+            if (key == 0)
+            {
+                if (BitZeroCheck(bits))
+                {
+                    countsTrue++;
+                }
+            }
             if (IsPowerOfTwo(key))
             {
-                if (CheckTruePotKey(bitsDic, key, value))
+                if (PotKeyCheck(bitsDic, key, value))
                 {
                     countsTrue++;
                 }
             }
         }
 
-        if(countsTrue == bits.GetUpperBound(0) + 1)
+        if(countsTrue - 2 == bits.GetUpperBound(0))
         {
             return true;
         }
@@ -84,7 +90,7 @@ public class HammingCode
         }
     }
 
-    public static bool CheckTruePotKey(Dictionary<int,int> bitsDic, int potKey, int value)
+    public static bool PotKeyCheck(Dictionary<int,int> bitsDic, int potKey, int value)
     {
         int bitsOne = 0;
                 
@@ -100,6 +106,26 @@ public class HammingCode
         }
 
         if ((bitsOne - value) % 2 == value)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public static bool BitZeroCheck(int[,] bits)
+    {
+        int bitsOne = 0;
+        foreach (int i in bits)
+        {
+            if (i == 1)
+            {
+                bitsOne++;
+            }
+        }
+        if (bitsOne % 2 == bits[0,0])
         {
             return true;
         }

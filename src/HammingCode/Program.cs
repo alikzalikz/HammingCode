@@ -22,7 +22,7 @@ int[,] bits = new[,]
     {0 , 1 , 0 , 0}
 };
 
-if (HammingCode.CheckData(bits))
+if (HammingCode.DataCheck(bits))
 {
     WriteLine("TRUE");
 }
