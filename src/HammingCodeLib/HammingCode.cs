@@ -26,19 +26,20 @@ public class HammingCode
         return dic;
     }
 
-    public static void ShowData(int[,] bits)
+    public static string ShowData(int[,] bits)
     {
         Dictionary<int, int> bitsDic = DicCreator(bits, bits.Length);
-
+        string str = "";
         foreach (KeyValuePair<int, int> bit in bitsDic)
         {
             if (bit.Key == 0 || IsPowerOfTwo(bit.Key))
             { }
             else
             {
-                Write(bit.Value + " ");
+                str += $"{bit.Value} ";
             }
         }
+        return str;
     }
     
     public static string ShowBits(int[,] bits)
