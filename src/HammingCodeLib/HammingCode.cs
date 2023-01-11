@@ -33,9 +33,7 @@ public class HammingCode
         foreach (KeyValuePair<int, int> bit in bitsDic)
         {
             if (bit.Key == 0 || IsPowerOfTwo(bit.Key))
-            {
-                
-            }
+            { }
             else
             {
                 Write(bit.Value + " ");
@@ -43,15 +41,62 @@ public class HammingCode
         }
     }
     
-    public static void ShowBits(int[,] bits)
+    public static string ShowBits(int[,] bits)
     {
+        string str = "";
         for (int i = 0; i <= bits.GetUpperBound(0); i++)
         {
             for (int j = 0; j <= bits.GetUpperBound(1); j++)
             {
-                Write(bits[i, j] + " ");
+                str += $"{bits[i, j]} ";
             }
             WriteLine();
+        }
+        return str;
+    }
+
+    public static bool PotKeyCheck(Dictionary<int,int> bitsDic, int potKey, int value)
+    {
+        int bitsOne = 0;
+                
+        for (int i = potKey; i < bitsDic.Count; i += potKey + potKey)
+        {
+            for (int j = i; j <= i + (potKey - 1); j++)
+            {
+                if (bitsDic[j] == 1)
+                {
+                    bitsOne++;
+                }
+            }
+        }
+
+        if ((bitsOne - value) % 2 == value)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public static bool BitZeroCheck(int[,] bits)
+    {
+        int bitsOne = 0;
+        foreach (int i in bits)
+        {
+            if (i == 1)
+            {
+                bitsOne++;
+            }
+        }
+        if (bitsOne % 2 == 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -90,48 +135,8 @@ public class HammingCode
         }
     }
 
-    public static bool PotKeyCheck(Dictionary<int,int> bitsDic, int potKey, int value)
+    public static void DataEdit(int[,] bits)
     {
-        int bitsOne = 0;
-                
-        for (int i = potKey; i < bitsDic.Count; i += potKey + potKey)
-        {
-            for (int j = i; j <= i + (potKey - 1); j++)
-            {
-                if (bitsDic[j] == 1)
-                {
-                    bitsOne++;
-                }
-            }
-        }
 
-        if ((bitsOne - value) % 2 == value)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    public static bool BitZeroCheck(int[,] bits)
-    {
-        int bitsOne = 0;
-        foreach (int i in bits)
-        {
-            if (i == 1)
-            {
-                bitsOne++;
-            }
-        }
-        if (bitsOne % 2 == bits[0,0])
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
     }
 }

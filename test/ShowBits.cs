@@ -1,10 +1,10 @@
 using HammingCodeLib.Shared;
 
 namespace test;
-public class BitZeroCheckTest
+public class ShowBitsTest
 {
     [Fact]
-    public void TestCorrectData()
+    public void Data1()
     {
         // Arrenge
         int[,] bits = new[,]
@@ -14,30 +14,30 @@ public class BitZeroCheckTest
             {0 , 0 , 1 , 0},
             {0 , 1 , 0 , 0}
         };
-        bool expected = true;
+        string expected = "0 1 1 1 1 1 1 0 0 0 1 0 0 1 0 0 ";
 
         // Act
-        bool actual = HammingCode.BitZeroCheck(bits);
+        string actual = HammingCode.ShowBits(bits);
         
         // Assert
         Assert.Equal(expected, actual);
     }
 
     [Fact]
-    public void TestUncorrectData()
+    public void Data2()
     {
         // Arrenge
         int[,] bits = new[,]
         {
-            {0 , 0 , 0 , 0}, 
-            {0 , 0 , 0 , 0},
-            {0 , 0 , 0 , 0},
-            {0 , 0 , 0 , 1}
+            {0 , 1 , 1 , 1}, 
+            {0 , 0 , 1 , 0},
+            {1 , 1 , 1 , 0},
+            {0 , 1 , 0 , 0}
         };
-        bool expected = false;
+        string expected = "0 1 1 1 0 0 1 0 1 1 1 0 0 1 0 0 ";
 
         // Act
-        bool actual = HammingCode.BitZeroCheck(bits);
+        string actual = HammingCode.ShowBits(bits);
         
         // Assert
         Assert.Equal(expected, actual);
